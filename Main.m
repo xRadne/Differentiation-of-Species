@@ -4,6 +4,7 @@
 
 %% RESET THE PROGRAM BY RUNNING THIS SECTION
 % PARAMETERS
+clear;
 nGenes = 1;
 populationSize = 100;
 gridSize = 100;
