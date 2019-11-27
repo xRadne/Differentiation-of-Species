@@ -1,6 +1,43 @@
-function newPopulation = Mate(population, geneticDistance, distanceParameter)
+function offspring = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
-    newPopulation = population;
+
+nAgents=size(population,2);
+offspring=zeros(1,nGenes);
+
+chromosome=zeros(nAgents,nGenes);
+for iAgent=1:nAgents
+    chromosome(iAgent,:)=population(1,iAgent).chromosome;
+end
+
+iOffspring=0;
+for i=1:nAgents
+    for j=nAgents
+        if(i~=j)
+            xi=population(1,i).x;
+            xj=population(1,i).x;
+            if(xi==xj)
+                yi=population(1,i).y;
+                yj=population(1,i).y;
+                distance=geneticDistance(i,j);
+                r=rand;
+                if(yi==yj && distance<distanceParameter && r<matingProbability)
+                    iOffspring=iOffspring+1;
+%                     disp('hej barn');
+                    for iGene=1:nGenes
+                        r=rand;
+                        if(r<0.5)
+                            offspring(iOffspring,iGene)=chromosome(i,iGene); 
+                        else 
+                            offspring(iOffspring,iGene)=chromosome(j,iGene);
+                        end
+                    end
+%                     offspring(iOffspring,:)=offspringChromosome
+                end
+            end
+        end
+    end
+end
+
 end
 
