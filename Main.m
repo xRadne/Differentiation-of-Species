@@ -16,7 +16,7 @@ mMax=0.9999; % set to reasonable value
 % INITIALIZE POPULATION
 time = 0;
 population = InitializePopulation(nGenes, populationSize);
-geneticDistance = GeneticDistance(population); 
+geneticDistance = GeneticDistance(population,nGenes); 
 
 
 %% MAIN LOOP
@@ -26,7 +26,7 @@ while true
     population = Walk(population);
     population = Mate(population, geneticDistance, distanceParameter);
     population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
-    geneticDistance = GeneticDistance(population);
+    geneticDistance = GeneticDistance(population,nGenes);
     statistics = Evaluate(population,nGenes);
     
     time = time + 1; % Timestep done

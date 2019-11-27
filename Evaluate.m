@@ -1,9 +1,8 @@
-function [averageGeneticDistance, differentiationDegrees] = Evaluate(population)
+function [averageGeneticDistance, differentiationDegrees] = Evaluate(population,nGenes)
 %EVALUATE Summary of this function goes here
 %   Detailed explanation goes here
     populationSize = size(population, 2);
-    nGenes = size(population(1).chromosome, 2);
-    distances = GeneticDistance(population);
+    distances = GeneticDistance(population,nGenes);
     
     averageGeneticDistance = sum(sum(distances));
     
