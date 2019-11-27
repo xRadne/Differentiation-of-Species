@@ -25,7 +25,7 @@ geneticDistance = GeneticDistance(population,nGenes);
 while true
     fprintf('Time: %1i\n', time+1)
     population = Walk(population);
-    population = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes);
+    population = Mate(population, geneticDistance, distanceParameter);
     population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
     geneticDistance = GeneticDistance(population,nGenes);
     statistics = Evaluate(population,nGenes);
