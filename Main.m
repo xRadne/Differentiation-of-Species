@@ -14,6 +14,7 @@ time = 0;
 population = InitializePopulation(nGenes, populationSize);
 geneticDistance = GeneticDistance(population); 
 
+
 %% MAIN LOOP
 % Stop the program by pressing: 'Ctrl + C'
 while true
@@ -27,5 +28,11 @@ while true
     time = time + 1; % Timestep done
 end
 
-
-
+%% DISPLAY DATA
+% 
+K = 2;
+genomes = zeros(populationSize, nGenes);
+for i = 1:populationSize
+    genomes(i,:) = population(i).chromosome;
+end
+PlotGenomeClusters2D(genomes, genomes, K);
