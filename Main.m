@@ -8,6 +8,7 @@ nGenes = 1;
 populationSize = 100;
 gridSize = 100;
 distanceParameter = 0.2;
+matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.02; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 mMin=0.0001; % set to reasonable value
