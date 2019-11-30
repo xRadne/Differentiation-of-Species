@@ -1,9 +1,9 @@
-function offspring = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes)
+function newPopulation = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
 nAgents=size(population,2);
-offspring=zeros(1,nGenes);
+offspring = zeros(1,nGenes);
 
 chromosome=zeros(nAgents,nGenes);
 for iAgent=1:nAgents
@@ -27,9 +27,9 @@ for i=1:nAgents
                     for iGene=1:nGenes
                         r=rand;
                         if(r<0.5)
-                            offspring(iOffspring,iGene)=chromosome(i,iGene); 
+                            offspring(iOffspring,:)=chromosome(i,:); 
                         else 
-                            offspring(iOffspring,iGene)=chromosome(j,iGene);
+                            offspring(iOffspring,:)=chromosome(j,:);
                         end
                     end
 %                     offspring(iOffspring,:)=offspringChromosome
@@ -38,6 +38,10 @@ for i=1:nAgents
         end
     end
 end
-
+newAgents = [];
+for i = 1:size(offspring, 1)
+    newAgents = [newAgents, Agent(offspring(i,:), 100)];
+end
+newPopulation = [population, newAgents];
 end
 

@@ -4,27 +4,28 @@
 
 %% RESET THE PROGRAM BY RUNNING THIS SECTION
 % PARAMETERS
-nGenes = 1;
-populationSize = 100;
+nGenes = 2;
+initialPopulationSize = 100;
 gridSize = 100;
-distanceParameter = 0.2;
+distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
-mutationProbability=0.02; % set to reasonable value
+mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 
 % INITIALIZE POPULATION
 time = 0;
-population = InitializePopulation(nGenes, populationSize);
+population = InitializePopulation(nGenes, initialPopulationSize);
 geneticDistance = GeneticDistance(population,nGenes); 
 
 
 %% MAIN LOOP
-% Stop the program by pressing: 'Ctrl + C'
+% Stop the program by selecting the command window and press: 'Ctrl + C'
 while true
     fprintf('Time: %1i\n', time+1)
     population = Walk(population);
+    population = Die(population, length(population)/10000);
     population = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes);
     population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
     geneticDistance = GeneticDistance(population,nGenes);
@@ -34,10 +35,9 @@ while true
 end
 
 %% DISPLAY DATA
-% 
-K = 2;
-genomes = zeros(populationSize, nGenes);
-for i = 1:populationSize
+K = 3;
+genomes = zeros(length(population), nGenes);
+for i = 1:length(population)
     genomes(i,:) = population(i).chromosome;
 end
-PlotGenomeClusters2D(genomes, genomes, K);
+PlotGenomeClusters2D(genomes(:,1), genomes(:,2), K);
