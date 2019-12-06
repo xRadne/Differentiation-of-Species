@@ -1,13 +1,13 @@
 %% DIFFERENTIATION OF SPECIES
 % Simulation of Complex Systems
-% Ellen Sand, Julia Wennerblom, Luc�a Castells Tiestos, Alexander Radne
+% Ellen Sand, Julia Wennerblom, Luc?a Castells Tiestos, Alexander Radne
 
 %% RESET THE PROGRAM BY RUNNING THIS SECTION
 % PARAMETERS
 
 clear;
 nGenes = 2;
-initialPopulationSize = 100;
+initialPopulationSize = 100; 
 gridSize = 100;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
@@ -15,6 +15,7 @@ mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
+tDeath=5; 
 
 % INITIALIZE POPULATION
 time = 0;
@@ -30,6 +31,7 @@ while true
     population = Die(population, length(population)/10000);
     population = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes);
     population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+    population = Age(population,tDeath);
     geneticDistance = GeneticDistance(population,nGenes);
     statistics = Evaluate(population,nGenes);
     

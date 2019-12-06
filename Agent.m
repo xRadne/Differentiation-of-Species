@@ -6,6 +6,7 @@ classdef Agent
         x
         y
         chromosome
+        age=0;
     end
     
     methods
@@ -18,4 +19,3 @@ classdef Agent
         end
     end
 end
-
