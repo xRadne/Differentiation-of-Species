@@ -46,6 +46,5 @@ for i = 1:length(population)
 end
 PlotGenomeClusters2D(genomes(:,1), genomes(:,2), K);
 axis([0 1 0 1]);
-axis equal
 xlabel('Gene 1')
 ylabel('Gene 2')
