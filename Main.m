@@ -39,9 +39,13 @@ while true
 end
 
 %% DISPLAY DATA
-K = 3;
+K = 1;
 genomes = zeros(length(population), nGenes);
 for i = 1:length(population)
     genomes(i,:) = population(i).chromosome;
 end
 PlotGenomeClusters2D(genomes(:,1), genomes(:,2), K);
+axis([0 1 0 1]);
+axis equal
+xlabel('Gene 1')
+ylabel('Gene 2')
