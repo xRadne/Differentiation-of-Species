@@ -1,6 +1,6 @@
-function newPopulation = Walk(population,gridSize)
-    for idx = 1:length(population)
-        agent = population(idx);
+function newPopulation = Walk(agentX,agentY,gridSize)
+    for idx = 1:length(agentY)
+        %agent = population(idx);
         for idx2 = 1:agent.chromosome(1) %Speed parameter
             randomNumber = randi(4);
             switch (randomNumber)

@@ -15,25 +15,29 @@ mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
-tDeath=5; 
+maxLife=5;
 
 % INITIALIZE POPULATION
 time = 0;
-population = InitializePopulation(nGenes, initialPopulationSize);
-geneticDistance = GeneticDistance(population,nGenes); 
+agentX=randi([0, gridSize],1,initialPopulationSize); % is the grid 0 to 100?
+agentY=randi([0, gridSize],1,initialPopulationSize);
+agentChromosome=rand(nGenes,initialPopulationSize); 
+agentAge=zeros(1,initialPopulationSize);
+population=ones(1,initialPopulationSize);
+geneticDistance = GeneticDistance(agentChromosome); 
 
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
 while true
     fprintf('Time: %1i\n', time+1)
-    population = Walk(population);
+    %population = Walk(population); 
     population = Die(population, length(population)/10000);
-    population = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes);
-    population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
-    population = Age(population,tDeath);
-    geneticDistance = GeneticDistance(population,nGenes);
-    statistics = Evaluate(population,nGenes);
+    [population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
+    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+    %population = Age(population,maxLife);
+    %geneticDistance = GeneticDistance(population,nGenes);
+    %statistics = Evaluate(population,nGenes);
     
     time = time + 1; % Timestep done
 end
