@@ -1,18 +1,14 @@
-function newpopulation=Age(population,tDeath)
-%make agents die after a certain amount of time, later on affected by how much they eat
+function [aliveAge,aliveX,aliveY,aliveChromosome]=Age(agentX,agentY,agentChromosome,agentAge,maxLife)
 
-% energy function rather than time function?
+% age function. the higher age, the higher the risk of dying
+ 
+     agentAge=agentAge+1; 
 
-deathRow=[];
- for i=1:length(population)
-     population(1,i).age=population(1,i).age + 1; 
-     deathRow(i)=(population(1,i).age==tDeath);
+     deathParameter=randi([1,maxLife],1,length(agentAge));
+     aliveIdx=find(agentAge < deathParameter);
+     aliveAge=agentAge(aliveIdx);
+     aliveX=agentX(aliveIdx);
+     aliveY=agentY(aliveIdx);
+     aliveChromosome=agentChromosome(:,aliveIdx);
+    
  end
- deathRow=find(deathRow);
- if not(isempty(deathRow))
- population(deathRow)=[];
- end
-%population(:,population(1,:).age == tDeath) =[]; should be able to make it
-%faster without loop
-newpopulation=population;
-end

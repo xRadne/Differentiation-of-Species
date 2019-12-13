@@ -9,42 +9,45 @@ clear;
 nGenes = 2;
 initialPopulationSize = 100; 
 gridSize = 100;
+nFood = 10;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
+matingDistance=0.01; % step size in walk function??
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
-tDeath=5; 
+maxLife=5;
 
 % INITIALIZE POPULATION
 time = 0;
-population = InitializePopulation(nGenes, initialPopulationSize);
-geneticDistance = GeneticDistance(population,nGenes); 
-
+agentX=randi([0, gridSize],1,initialPopulationSize); % is the grid 0 to 100?
+agentY=randi([0, gridSize],1,initialPopulationSize);
+agentChromosome=rand(nGenes,initialPopulationSize); 
+agentAge=zeros(1,initialPopulationSize);
+geneticDistance = GeneticDistance(agentChromosome); 
+sightRadius = rand(1,initialPopulationSize) * 5;
+radius = 0.1 * ones(1,initialPopulationSize);
+speed = rand(1,initialPopulationSize);
+foodX = rand(1,nFood) * gridSize;
+foodY = rand(1,nFood) * gridSize;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
+figure(1)
 while true
     fprintf('Time: %1i\n', time+1)
-    population = Walk(population);
-    population = Die(population, length(population)/10000);
-    population = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes);
-    population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
-    population = Age(population,tDeath);
-    geneticDistance = GeneticDistance(population,nGenes);
-    statistics = Evaluate(population,nGenes);
-    
+    speed = rand(1,length(agentX));
+    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
+    agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
+    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+ 
+    plot(agentX,agentY,'or');
     time = time + 1; % Timestep done
 end
 
 %% DISPLAY DATA
-K = 1;
-genomes = zeros(length(population), nGenes);
-for i = 1:length(population)
-    genomes(i,:) = population(i).chromosome;
-end
-PlotGenomeClusters2D(genomes(:,1), genomes(:,2), K);
-axis([0 1 0 1]);
-xlabel('Gene 1')
-ylabel('Gene 2')
+figure(1); clf;
+species = ComputeComponents(agentChromosome,distanceParameter);
+PlotGenomeClusters2D(agentChromosome(1,:),agentChromosome(2,:),species);

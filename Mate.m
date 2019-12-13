@@ -1,45 +1,31 @@
-function newPopulation = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes)
+function [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
-nAgents=size(population,2);
-offspring = zeros(1,nGenes);
+nAgents=size(agentX,2);
+nGenes=size(agentChromosome,2);
 
-chromosome=zeros(nAgents,nGenes);
-for iAgent=1:nAgents
-    chromosome(iAgent,:)=population(1,iAgent).chromosome;
-end
-
-iOffspring=0;
+iOffspring=nAgents;
 for i=1:nAgents
-    for j=nAgents
+    for j=1:nAgents
         if(i~=j)
-            xi=population(1,i).x;
-            xj=population(1,i).x;
-            if(xi==xj)
-                yi=population(1,i).y;
-                yj=population(1,i).y;
-                distance=geneticDistance(i,j);
-                r=rand;
-                if(yi==yj && distance<distanceParameter && r<matingProbability)
-                    iOffspring=iOffspring+1;
-                    for iGene=1:nGenes
-                        r=rand;
-                        if(r<0.5)
-                            offspring(iOffspring,:)=chromosome(i,:); 
-                        else 
-                            offspring(iOffspring,:)=chromosome(j,:);
-                        end
+            distance=sqrt((agentX(i)-agentX(j))^2+(agentY(i)-agentY(j))^2);
+            r=rand;
+            
+            if(distance<matingDistance && geneticDistance(i,j)<distanceParameter && r<matingProbability)
+                iOffspring=iOffspring+1;
+                for iGene=1:nGenes
+                    r=rand;
+                    if(r<0.5)
+                        agentChromosome(:,iOffspring)=agentChromosome(:,i);
+                    else
+                        agentChromosome(:,iOffspring)=agentChromosome(:,j);
                     end
                 end
             end
         end
     end
 end
-newAgents = [];
-for i = 1:size(offspring, 1)
-    newAgents = [newAgents, Agent(offspring(i,:), 100)];
-end
-newPopulation = [population, newAgents];
+
 end
 
