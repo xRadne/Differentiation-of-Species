@@ -7,7 +7,7 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 1000; 
+initialPopulationSize = 100; 
 gridSize = 100;
 nFood = 10;
 distanceParameter = 0.05;
@@ -18,7 +18,7 @@ matingDistance=10; % step size in walk function??
 sightParameter=10;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
-maxLife=5;
+maxLife=100;
 
 % INITIALIZE POPULATION
 time = 0;
@@ -29,12 +29,14 @@ agentAge=zeros(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
 radius = sightParameter * ones(1,initialPopulationSize);
 speed = rand(1,initialPopulationSize);
+nAgents=initialPopulationSize;
+
+% INITIALIZE FOOD
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
-nAgents=initialPopulationSize;
 figure(1)
 while nAgents>0
     fprintf('Time: %1i\n', time+1)
@@ -44,11 +46,9 @@ while nAgents>0
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
  
-    pause(0.3);
-    plot(agentX,agentY,'or');
-    drawnow
-    time = time + 1; % Timestep done
+    PlotEnvironment(agentX,agentY,foodX,foodY);
     nAgents=size(agentX,2);
+    time = time + 1; % Timestep done
 end
 
 %% DISPLAY DATA
