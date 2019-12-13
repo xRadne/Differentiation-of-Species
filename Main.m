@@ -9,7 +9,9 @@ clear;
 nGenes = 2;
 initialPopulationSize = 100; 
 gridSize = 100;
-nFood = 10;
+nFood = 20;
+maxFood = 1;
+foodRegenerateAmount = 0.01;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -34,6 +36,8 @@ nAgents=initialPopulationSize;
 % INITIALIZE FOOD
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
+foodAmount = rand(1,nFood) * maxFood;
+foodRadius = 5;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
@@ -42,10 +46,12 @@ while nAgents>0
     fprintf('Time: %1i\n', time+1)
     speed = rand(1,length(agentX));
     [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
+%     [foodX,foodY] = Eat(agentX,agentY,foodX,foodY,foodRadius,gridSize);
+    foodAmount = foodAmount + foodRegenerateAmount;
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
-    [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
-    [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
-    geneticDistance = GeneticDistance(agentChromosome); 
+%     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
+%     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
+%     geneticDistance = GeneticDistance(agentChromosome); 
  
     PlotEnvironment(agentX,agentY,foodX,foodY);
     nAgents=size(agentX,2);
