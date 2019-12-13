@@ -37,6 +37,7 @@ foodY = rand(1,nFood) * gridSize;
 figure(1)
 while true
     fprintf('Time: %1i\n', time+1)
+    speed = rand(1,length(agentX));
     [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
