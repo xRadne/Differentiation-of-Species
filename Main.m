@@ -9,6 +9,7 @@ clear;
 nGenes = 2;
 initialPopulationSize = 100; 
 gridSize = 100;
+nFood = 10;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -25,10 +26,11 @@ agentY=randi([0, gridSize],1,initialPopulationSize);
 agentChromosome=rand(nGenes,initialPopulationSize); 
 agentAge=zeros(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
-radius = rand(1,100) * 3;
-speed = rand(1,100);
-foodX = rand(1,10) * gridSize;
-foodY = rand(1,10) * gridSize;
+sightRadius = rand(1,initialPopulationSize) * 5;
+radius = 0.1 * ones(1,initialPopulationSize);
+speed = rand(1,initialPopulationSize);
+foodX = rand(1,nFood) * gridSize;
+foodY = rand(1,nFood) * gridSize;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
