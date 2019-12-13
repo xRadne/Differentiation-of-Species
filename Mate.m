@@ -1,4 +1,4 @@
-function [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability)
+function [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability,gridSize)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -22,10 +22,18 @@ for i=1:nAgents
                         agentChromosome(:,iOffspring)=agentChromosome(:,j);
                     end
                 end
+                agentAge(iOffspring)=0;
+                agentX(iOffspring)=agentX(i)+matingDistance;
+                agentY(iOffspring)=agentY(i)+matingDistance;
+                
             end
         end
     end
 end
+agentX(agentX>gridSize)=gridSize;
+agentY(agentY>gridSize)=gridSize;
+agentX(agentX<0)=0;
+agentX(agentX<0)=0;
 
 end
 
