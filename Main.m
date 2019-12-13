@@ -23,7 +23,6 @@ agentX=randi([0, gridSize],1,initialPopulationSize); % is the grid 0 to 100?
 agentY=randi([0, gridSize],1,initialPopulationSize);
 agentChromosome=rand(nGenes,initialPopulationSize); 
 agentAge=zeros(1,initialPopulationSize);
-population=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
 
 
@@ -32,10 +31,10 @@ geneticDistance = GeneticDistance(agentChromosome);
 while true
     fprintf('Time: %1i\n', time+1)
     %population = Walk(population); 
-    population = Die(population, length(population)/10000);
-    [population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
-    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
-    %population = Age(population,maxLife);
+   % population = Die(population, length(population)/10000);
+    %[population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
+    agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
     %geneticDistance = GeneticDistance(population,nGenes);
     %statistics = Evaluate(population,nGenes);
     
