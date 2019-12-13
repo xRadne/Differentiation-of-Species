@@ -13,6 +13,7 @@ distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
+matingDistance=0.01; % step size in walk function??
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=5;
@@ -37,7 +38,8 @@ while true
     [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
-    
+    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+ 
     plot(agentX,agentY,'or');
     time = time + 1; % Timestep done
 end
