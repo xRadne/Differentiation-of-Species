@@ -1,21 +1,23 @@
-function [] = PlotGenomeClusters2D(X,Y,K)
-%PLOTGENOMECLUSTERS2D Plots clusters of a 2D dataset.
-%    X,Y are column vectors. K is the number of clusters to find
-    opts = statset('Display','final');
-    [cidx, ctrs] = kmeans([X Y], K, 'Distance','city', ...
-                          'Replicates',5, 'Options',opts);
+function [] = PlotGenomeClusters2D(gene1, gene2, components)
+%PLOTGENOMECLUSTERS2D Components is a vector of integers specifying what
+%specie/cluster/component an individual agent belongs to.
+    
 
-    hsvColor = linspace(0,1-1/K,K)'*[1 0 0]; % Column vector with equally spaced hues
-    hsvColor = hsvColor+ [0 1 1]; % Set saturation and brightness to 1 for all colors
+
+    % Plot Positions/Genes
+    nComponents = max(components);
+    hue = linspace(0,1-1/nComponents,nComponents)'*[1 0 0]; % Column vector with equally spaced hues
+    hsvColor = hue + [0 1 1]; % Set saturation and brightness to 1 for all colors
     rgbColor = hsv2rgb(hsvColor); % Convert to RGB values
 
-    figure(1); clf;
     hold on
-    for i = 1:K
-        plot(X(cidx==i),Y(cidx==i),'.','Color',rgbColor(i,:));
+    for c = 1:nComponents
+        gene1Component = gene1(components == c);
+        gene2Component = gene2(components == c);
+        
+        plot(gene1Component, gene2Component,'.','Color',rgbColor(c,:),'MarkerSize',10)
+        plot(mean(gene1Component), mean(gene2Component),'kx','MarkerSize',10)
     end
-    plot(ctrs(:,1),ctrs(:,2),'kx');
     hold off
-    drawnow()
 end
 

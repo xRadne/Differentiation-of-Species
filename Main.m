@@ -43,9 +43,6 @@ while true
 end
 
 %% DISPLAY DATA
-K = 3;
-genomes = zeros(length(population), nGenes);
-for i = 1:length(population)
-    genomes(i,:) = population(i).chromosome;
-end
-PlotGenomeClusters2D(genomes(:,1), genomes(:,2), K);
+figure(1); clf;
+species = ComputeComponents(agentChromosome,distanceParameter);
+PlotGenomeClusters2D(agentChromosome(1,:),agentChromosome(2,:),species);
