@@ -23,7 +23,6 @@ for i=1:nAgents
                 r=rand;
                 if(yi==yj && distance<distanceParameter && r<matingProbability)
                     iOffspring=iOffspring+1;
-%                     disp('hej barn');
                     for iGene=1:nGenes
                         r=rand;
                         if(r<0.5)
@@ -32,7 +31,6 @@ for i=1:nAgents
                             offspring(iOffspring,:)=chromosome(j,:);
                         end
                     end
-%                     offspring(iOffspring,:)=offspringChromosome
                 end
             end
         end
