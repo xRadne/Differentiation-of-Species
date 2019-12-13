@@ -41,7 +41,7 @@ while true
     [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
-    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
  
     plot(agentX,agentY,'or');
     time = time + 1; % Timestep done
