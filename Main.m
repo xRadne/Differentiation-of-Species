@@ -13,6 +13,7 @@ distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
+matingDistance=0.01; % step size in walk function??
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=5;
@@ -33,8 +34,7 @@ while true
     fprintf('Time: %1i\n', time+1)
     %population = Walk(population); 
     population = Die(population, length(population)/10000);
-    [population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
-    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
     %population = Age(population,maxLife);
     %geneticDistance = GeneticDistance(population,nGenes);
     %statistics = Evaluate(population,nGenes);
