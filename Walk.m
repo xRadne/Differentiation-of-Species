@@ -7,12 +7,11 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gri
     foodAgentY = foodY - agentY';
     distanceSquared = (foodAgentX).^2 + (foodAgentY).^2;
     [distance,index] = min(distanceSquared,[],2);
-    distanceTrans = distance';
     speedAux = speed;
     
     for idx = 1:length(speed)
-        if (speed(idx)*speed(idx) > distanceTrans(idx))
-            speed(idx) = sqrt(distanceTrans(idx)) - 0.1;
+        if (speed(idx)*speed(idx) > distance(idx))
+            speed(idx) = sqrt(distance(idx)) - 0.1;
         end
     end
 
