@@ -25,20 +25,25 @@ agentChromosome=rand(nGenes,initialPopulationSize);
 agentAge=zeros(1,initialPopulationSize);
 population=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
-
+radius = rand(1,100) * 3;
+speed = rand(1,100);
+foodX = rand(1,10) * gridSize;
+foodY = rand(1,10) * gridSize;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
+figure(1)
 while true
     fprintf('Time: %1i\n', time+1)
-    %population = Walk(population); 
-    population = Die(population, length(population)/10000);
-    [population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
+    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
+%     population = Die(population, length(population)/10000);
+%     [population,agentAge,agentX,agentY,agentChromosome] = Mate(population, geneticDistance, distanceParameter,matingProbability,nGenes,agentChromosome,agentAge,agentX,agentY,gridSize);
     %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
     %population = Age(population,maxLife);
     %geneticDistance = GeneticDistance(population,nGenes);
     %statistics = Evaluate(population,nGenes);
     
+    plot(agentX,agentY,'or');
     time = time + 1; % Timestep done
 end
 
