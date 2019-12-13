@@ -15,6 +15,7 @@ matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 matingDistance=0.01; % step size in walk function??
+sightParameter=0.1;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=5;
@@ -26,8 +27,7 @@ agentY=randi([0, gridSize],1,initialPopulationSize);
 agentChromosome=rand(nGenes,initialPopulationSize); 
 agentAge=zeros(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
-sightRadius = rand(1,initialPopulationSize) * 5;
-radius = 0.1 * ones(1,initialPopulationSize);
+radius = sightParameter * ones(1,initialPopulationSize);
 speed = rand(1,initialPopulationSize);
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
@@ -41,7 +41,7 @@ while true
     [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
-    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,matingDistance,geneticDistance,distanceParameter,matingProbability,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
  
     plot(agentX,agentY,'or');
     time = time + 1; % Timestep done
