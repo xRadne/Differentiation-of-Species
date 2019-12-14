@@ -7,12 +7,12 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 100; 
+initialPopulationSize = 5; 
 gridSize = 100;
 nFood = 20;
 maxFood = 1;
 biteSize = 0.1;
-foodRegenerateAmount = 0.01;
+foodRegenerateAmount = 0.00001;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -22,6 +22,9 @@ sightParameter=10;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
+deathParameter=0.001;
+hungerParameter=0.1;
+
 
 % INITIALIZE POPULATION
 time = 0;
@@ -54,7 +57,7 @@ while nAgents>0
     [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
-%     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
+     [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter);
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
 %     geneticDistance = GeneticDistance(agentChromosome); 
  
