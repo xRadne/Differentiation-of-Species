@@ -49,15 +49,15 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foo
         newAgentY(idx) = posY;
     end
     
-    for idx = 1:length(agentY)
+    for idx = 1:length(newAgentY)
         for idx2 = 1:length(foodY)
-            rx = foodX(idx2) - agentX(idx);
-            ry = foodY(idx2) - agentY(idx);
+            rx = foodX(idx2) - newAgentX(idx);
+            ry = foodY(idx2) - newAgentY(idx);
             distance = sqrt(rx*rx + ry*ry);
             if (distance < 0.1)
                 overlap = 0.1 - distance;
-                agentX(idx) = agentX(idx) - overlap*(rx/distance);
-                agentY(idx) = agentY(idx) - overlap*(ry/distance);
+                newAgentX(idx) = newAgentX(idx) - overlap*(rx/distance);
+                newAgentY(idx) = newAgentY(idx) - overlap*(ry/distance);
             end
         end
     end
