@@ -1,4 +1,4 @@
-function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize)
+function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize)
     
     nAgents = length(agentY);
     newAgentX = zeros(1,nAgents);
@@ -10,7 +10,7 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gri
     speedAux = speed;
     
     for idx = 1:length(speed)
-        if (speed(idx)*speed(idx) > distance(idx))
+        if (speed(idx)*speed(idx) > distance(idx)) & foodAmount(index(idx))>=0.1
             speed(idx) = sqrt(distance(idx)) - 0.1;
         end
     end
@@ -19,7 +19,7 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gri
         posX = agentX(idx);
         posY = agentY(idx);
         R = radius(idx);
-        if (distance(idx) < R^2)
+        if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
