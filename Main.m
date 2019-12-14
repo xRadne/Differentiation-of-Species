@@ -7,12 +7,12 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 5; 
+initialPopulationSize = 100; 
 gridSize = 100;
 nFood = 20;
 maxFood = 1;
 biteSize = 0.1;
-foodRegenerateAmount = 0.00001;
+foodRegenerateAmount = 0.01;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -23,8 +23,8 @@ mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
 deathParameter=0.001;
-hungerParameter=0.1;
-
+hungerParameter=0.01;
+maxHunger=10;
 
 % INITIALIZE POPULATION
 time = 0;
@@ -54,14 +54,14 @@ while nAgents>0
 %     [agentX,agentY] =
 %     Walk(agentX,agentY,speed,radius,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),gridSize);
 %     % food x and y must not be empty
-    [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize);
+    [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize,agentChromosome);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
-     [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter);
+     [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
 %     geneticDistance = GeneticDistance(agentChromosome); 
  
-    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize));
+    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize));
     nAgents=size(agentX,2);
     time = time + 1; % Timestep done
 end
