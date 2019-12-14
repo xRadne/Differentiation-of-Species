@@ -10,7 +10,8 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foo
     speedAux = speed;
     
     for idx = 1:length(speed)
-        if (speed(idx)*speed(idx) > distance(idx)) & foodAmount(index(idx))>=0.1
+        R = radius(idx);
+        if (speed(idx)*speed(idx) > distance(idx)) & foodAmount(index(idx))>=0.1 & (distance(idx) < R^2)
             speed(idx) = sqrt(distance(idx)) - 0.1;
         end
     end
