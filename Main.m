@@ -50,7 +50,7 @@ figure(1)
 while nAgents>0
     fprintf('Time: %1i\n', time+1)
     speed = rand(1,length(agentX));
-    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize); 
+    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,gridSize,foodAmount); 
 %     [agentX,agentY] =
 %     Walk(agentX,agentY,speed,radius,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),gridSize);
 %     % food x and y must not be empty
