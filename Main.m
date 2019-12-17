@@ -44,7 +44,7 @@ while true
     fprintf('Time: %1i\n', time+1)
     speed = rand(1,length(agentX));
     % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
-    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize,lowerX,midX,higherX,lowerY,higherY);
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY);
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
     [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
