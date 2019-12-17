@@ -9,7 +9,7 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     hold on
 
     sizeIndividual=agentChromosome(1,:).*100;
-    scatter(agentX,agentY,sizeIndividual)%, sizeIndividual)
+    scatter(agentX,agentY,sizeIndividual,'w','filled')%, sizeIndividual)
     
    
     %valley
