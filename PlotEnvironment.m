@@ -15,7 +15,7 @@ scatter(agentX,agentY,sizeIndividual)%, sizeIndividual)
 axis tight;
 axis([0 100 0 100]);
 hold on
-I = imread('KondyorMassif3.png');
+I = imread('KondyorMassif4.png');
 h = image(xlim,ylim,I);
 uistack(h,'bottom')
 hold off
