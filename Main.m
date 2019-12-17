@@ -13,6 +13,13 @@ nFood = 20;
 maxFood = 1;
 biteSize = 0.1;
 foodRegenerateAmount = 0.01;
+
+lowerX = 20;
+midX = 30;
+higherX = 50;
+lowerY = 20;
+higherY = 50;
+nFood = 10;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -50,12 +57,12 @@ figure(1)
 while nAgents>0
     fprintf('Time: %1i\n', time+1)
     speed=(1-agentChromosome(1,:));
-    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
-%     [agentX,agentY] =
-%     Walk(agentX,agentY,speed,radius,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),gridSize);
-%     % food x and y must not be empty
+
     [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize,agentChromosome);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
+
+    % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize,lowerX,midX,higherX,lowerY,higherY);
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
      [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
