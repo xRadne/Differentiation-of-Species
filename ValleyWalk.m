@@ -1,4 +1,4 @@
-function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood)
+function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius)
     
     nAgents = length(agentY);
     newAgentX = zeros(1,nAgents);
@@ -24,6 +24,11 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         posX = agentX(idx);
         posY = agentY(idx);
         R = radius(idx);
+        if iClosestEligableMate(idx) == 0
+            distanceClosestAgent = 1000;
+        else
+            distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
+        end
         if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1 & (logicalHungerParameter(idx) ~= 1)
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
@@ -33,6 +38,20 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
                 theta = pi + atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
                 posY = posY + speed(idx)*sin(theta);
+            end
+        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) >= 0.5*hungerParameter)
+            if distanceClosestAgent > mateRadius^2
+                if (speed(idx)+speed(iClosestEligableMate(idx))) > goingRadius
+                speed(idx) = goingRadius/2 - 0.05;
+                end
+                if (agentX(iClosestEligableMate(idx))-agentX(idx)) > 0
+                    theta = atan((agentY(iClosestEligableMate(idx))-agentY(idx))/(agentX(iClosestEligableMate(idx))-agentX(idx)));
+                else
+                    theta = pi + atan((agentY(iClosestEligableMate(idx))-agentY(idx))/(agentX(iClosestEligableMate(idx))-agentX(idx)));
+                end
+                posX = posX + speed(idx)*cos(theta);
+                posY = posY + speed(idx)*sin(theta);
+                speed(idx) = speedAux(idx);
             end
         else
             theta = -pi + rand*2*pi;
