@@ -54,7 +54,10 @@ foodRadius = 1;
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
 figure(1)
+ 
+   
 while nAgents>0
+    
     fprintf('Time: %1i\n', time+1)
     speed=(1-agentChromosome(1,:));
 
@@ -68,9 +71,12 @@ while nAgents>0
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);
 %     geneticDistance = GeneticDistance(agentChromosome); 
  
-    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize));
+    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY);
     nAgents=size(agentX,2);
     time = time + 1; % Timestep done
+   
+
+    
 end
 
 %% DISPLAY DATA
