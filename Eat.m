@@ -1,32 +1,37 @@
-function [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius, biteSize,agentChromosome)
+function [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,foodType,foodEdabilityRange,biteSize,agentChromosome,gridSize)
     % biteSize is how much food an agent eats each time step
     
     squaredDistanceMatrix = (agentX-foodX').^2 + (agentY-foodY').^2;
-    [squaredDistanceClosestFood, iClostestFood] = min(squaredDistanceMatrix);
+    [squaredDistanceClosestFood, iClosestFood] = min(squaredDistanceMatrix);
 
+    agentPreference = agentChromosome(2,:);
+    
     foodWithinRange = squaredDistanceClosestFood < foodRadius^2;
     foodLeft = foodAmount >= biteSize;
-    agentsEating = foodWithinRange & foodLeft(iClostestFood);
+    edibleByAgent = abs(foodType(iClosestFood)-agentPreference) < foodEdabilityRange;
+    agentsEating = foodWithinRange & foodLeft(iClosestFood) & edibleByAgent;
 
     %size difference
     agentSize=agentChromosome(1,:);
-    occurrences=sum(iClostestFood(agentsEating)==iClostestFood(agentsEating)');
+    occurrences=sum(iClosestFood(agentsEating)==iClosestFood(agentsEating)');
     
     eatingIdx=find(agentsEating==1);
-    soloEaters=eatingIdx((occurrences==1));
+    soloEaters=eatingIdx(occurrences==1);
     groupEaters=eatingIdx(occurrences>1);
-    foodRatio=[];
+    foodRatio=zeros(1,length(groupEaters));
     for i=1:length(groupEaters)
-       toFight=find(iClostestFood(groupEaters(i))==iClostestFood(groupEaters));
+       toFight=iClosestFood(groupEaters(i))==iClosestFood(groupEaters);
        foodRatio(i)=agentSize(groupEaters(i))./sum(agentSize(groupEaters(toFight))); 
     end
     
     agentHunger(soloEaters)=agentHunger(soloEaters) + biteSize;
   
-    agentHunger(groupEaters)=agentHunger(groupEaters)+foodLeft(iClostestFood(groupEaters)).*foodRatio;
+    agentHunger(groupEaters)=agentHunger(groupEaters)+foodLeft(iClosestFood(groupEaters)).*foodRatio;
    
-    %agentHunger(agentsEating) = agentHunger(agentsEating) + biteSize;
-    %foodAmount(iClostestFood(agentsEating)) = foodAmount(iClostestFood(agentsEating)) - biteSize;
-    foodAmount(iClostestFood(soloEaters)) = foodAmount(iClostestFood(soloEaters)) - biteSize;
-    foodAmount(iClostestFood(groupEaters)) = foodAmount(iClostestFood(groupEaters)) - foodLeft(iClostestFood(groupEaters)).*foodRatio;
+    foodAmount(iClosestFood(soloEaters)) = foodAmount(iClosestFood(soloEaters)) - biteSize;
+    foodAmount(iClosestFood(groupEaters)) = foodAmount(iClosestFood(groupEaters)) - foodLeft(iClosestFood(groupEaters)).*foodRatio;
+
+    % MOVE EMPTY FOOD RESOURCES
+    foodX(~foodLeft) = gridSize * rand(1, sum(~foodLeft));
+    foodY(~foodLeft) = gridSize * rand(1, sum(~foodLeft));
 end
