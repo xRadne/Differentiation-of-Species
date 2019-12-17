@@ -1,9 +1,12 @@
-function [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize)
+
+function [agentAge,agentX,agentY,agentChromosome,radius,agentHunger] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax,agentHunger,maxHunger)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
 nAgents=size(agentX,2);
-nGenes=size(agentChromosome,2);
+%nGenes=size(agentChromosome,2);
+nGenes=size(agentChromosome,1);
+
 nFoodSources=size(foodX,2);
 
 iOffspring=nAgents;
@@ -21,9 +24,12 @@ for i=1:nAgents
             end
             r=rand;
             
-            if(any(foodDistance1<~foodRadius) && any(foodDistance2<~foodRadius))
-                if(distance<matingDistance && geneticDistance(i,j)<distanceParameter && r<matingProbability)
-                    iOffspring=iOffspring+1;
+            %if(any(foodDistance1<~foodRadius) && any(foodDistance2<~foodRadius))
+            if not(any(foodDistance1<foodRadius)) && not(any(foodDistance2<foodRadius))
+
+                 if(distance<matingDistance && geneticDistance(i,j)<distanceParameter && r<matingProbability)
+                   
+                     iOffspring=iOffspring+1;
                     for iGene=1:nGenes
                         r=rand;
                         if(r<0.5)
@@ -32,13 +38,15 @@ for i=1:nAgents
                             agentChromosome(:,iOffspring)=agentChromosome(:,j);
                         end
                     end
+                    agentChromosome(:,iOffspring) = Mutate(mutationProbability,mutationParameter,agentChromosome(:,iOffspring),mMin,mMax);
                     agentAge(iOffspring)=0;
-                    agentX(iOffspring)=agentX(i)+matingDistance;
-                    agentY(iOffspring)=agentY(i)+matingDistance;
+                    agentX(iOffspring)=agentX(i)+matingDistance*8;
+                    agentY(iOffspring)=agentY(i)+matingDistance*8;
                     radius(iOffspring)=sightParameter*rand;
-                    
-                end
+                    agentHunger(iOffspring)=maxHunger;
+                 end
             end
+           
         end
     end
 end
@@ -46,6 +54,7 @@ agentX(agentX>gridSize)=gridSize;
 agentY(agentY>gridSize)=gridSize;
 agentX(agentX<0)=0;
 agentX(agentX<0)=0;
+
 
 end
 
