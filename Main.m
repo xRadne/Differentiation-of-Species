@@ -8,7 +8,7 @@
 clear;
 nGenes = 2;
 initialPopulationSize = 100; 
-gridSize = 100;
+gridSize = 1000;
 nFood = 20;
 maxFood = 1;
 biteSize = 0.1;
