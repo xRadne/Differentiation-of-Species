@@ -26,7 +26,7 @@ function [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,fo
     
     agentHunger(soloEaters)=agentHunger(soloEaters) + biteSize;
   
-    agentHunger(groupEaters)=agentHunger(groupEaters)+foodLeft(iClosestFood(groupEaters)).*foodRatio;
+    agentHunger(groupEaters)=agentHunger(groupEaters) + biteSize.*foodRatio;
    
     foodAmount(iClosestFood(soloEaters)) = foodAmount(iClosestFood(soloEaters)) - biteSize;
     foodAmount(iClosestFood(groupEaters)) = foodAmount(iClosestFood(groupEaters)) - foodLeft(iClosestFood(groupEaters)).*foodRatio;
