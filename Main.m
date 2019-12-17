@@ -59,7 +59,7 @@ figure(1)
 while nAgents>0
     
     fprintf('Time: %1i\n', time+1)
-    speed=(1-agentChromosome(1,:));
+    speed=(1-agentChromosome(1,:)).*10;
 
     [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize,agentChromosome);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
