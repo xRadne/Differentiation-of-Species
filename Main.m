@@ -14,11 +14,11 @@ maxFood = 1;
 biteSize = 0.1;
 foodRegenerateAmount = 0.01;
 
-lowerX = 20;
-midX = 30;
-higherX = 50;
-lowerY = 20;
-higherY = 50;
+lowerX = 40;
+midX = 50;
+higherX = 75;
+lowerY = 30;
+higherY = 68;
 nFood = 10;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
