@@ -23,8 +23,9 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
 axis tight;
 axis([0 100 0 100]);
 
-I = imread('KondyorMassif4.png');
-h = image(xlim,ylim,I);
+I = imread('KondyorMassif5.png');
+I3 = flipdim(I ,1);
+h = image(xlim,ylim,I3);
 uistack(h,'bottom')
 hold off
 drawnow
