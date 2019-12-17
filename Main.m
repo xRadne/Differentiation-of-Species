@@ -20,6 +20,8 @@ higherX = 50;
 lowerY = 20;
 higherY = 50;
 nFood = 10;
+foodRadius = 5;
+foodEdabilityRange = 0.2;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
@@ -49,7 +51,7 @@ nAgents=initialPopulationSize;
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 foodAmount = rand(1,nFood) * maxFood;
-foodRadius = 1;
+foodType = rand(1,nFood);
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
@@ -58,7 +60,7 @@ while nAgents>0
     fprintf('Time: %1i\n', time+1)
     speed=(1-agentChromosome(1,:));
 
-    [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize,agentChromosome,gridSize);
+    [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,foodType,foodEdabilityRange,biteSize,agentChromosome,gridSize);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
 
     % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 

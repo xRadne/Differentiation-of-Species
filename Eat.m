@@ -1,12 +1,15 @@
-function [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius, biteSize,agentChromosome,gridSize)
+function [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,foodType,foodEdabilityRange,biteSize,agentChromosome,gridSize)
     % biteSize is how much food an agent eats each time step
     
     squaredDistanceMatrix = (agentX-foodX').^2 + (agentY-foodY').^2;
     [squaredDistanceClosestFood, iClosestFood] = min(squaredDistanceMatrix);
 
+    agentPreference = agentChromosome(2,:);
+    
     foodWithinRange = squaredDistanceClosestFood < foodRadius^2;
     foodLeft = foodAmount >= biteSize;
-    agentsEating = foodWithinRange & foodLeft(iClosestFood);
+    edibleByAgent = abs(foodType(iClosestFood)-agentPreference) < foodEdabilityRange;
+    agentsEating = foodWithinRange & foodLeft(iClosestFood) & edibleByAgent;
 
     %size difference
     agentSize=agentChromosome(1,:);
