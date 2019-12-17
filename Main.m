@@ -42,7 +42,7 @@ agentAge=zeros(1,initialPopulationSize);
 agentHunger=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
 radius = sightParameter * ones(1,initialPopulationSize);
-speed = rand(1,initialPopulationSize);
+speed=(1-agentChromosome(1,:).*2)*2;
 nAgents=initialPopulationSize;
 
 % INITIALIZE FOOD
@@ -59,7 +59,7 @@ figure(1)
 while nAgents>0
     
     fprintf('Time: %1i\n', time+1)
-    speed=(1-agentChromosome(1,:).*2)*2;
+    
 
     [agentHunger,foodAmount] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,biteSize,agentChromosome);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
@@ -68,8 +68,8 @@ while nAgents>0
      [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
     [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax);
 %     geneticDistance = GeneticDistance(agentChromosome); 
-
-    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY);
+    speed=(1-agentChromosome(1,:).*2)*2;
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY);
  
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY);
     nAgents=size(agentX,2);
