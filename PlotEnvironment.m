@@ -3,7 +3,7 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
 
     %map=[zeros(1,length(agentX))',zeros(1,length(agentX))',linspace(1,0.001,length(agentX))'];
     %colormap(map)
-    axis([])
+    axis([]);
     sizeFood=foodAmount.*200;
     scatter(foodX,foodY,sizeFood,'r','filled')
     hold on

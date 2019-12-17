@@ -1,4 +1,4 @@
-function [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize)
+function [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -32,6 +32,7 @@ for i=1:nAgents
                             agentChromosome(:,iOffspring)=agentChromosome(:,j);
                         end
                     end
+                    agentChromosome(:,iOffspring) = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
                     agentAge(iOffspring)=0;
                     agentX(iOffspring)=agentX(i)+matingDistance;
                     agentY(iOffspring)=agentY(i)+matingDistance;
@@ -46,6 +47,5 @@ agentX(agentX>gridSize)=gridSize;
 agentY(agentY>gridSize)=gridSize;
 agentX(agentX<0)=0;
 agentX(agentX<0)=0;
-
 end
 
