@@ -9,6 +9,11 @@ clear;
 nGenes = 2;
 initialPopulationSize = 100; 
 gridSize = 100;
+lowerX = 20;
+midX = 30;
+higherX = 50;
+lowerY = 20;
+higherY = 50;
 nFood = 10;
 distanceParameter = 0.05;
 matingProbability = 0.5; % set to reasonable value
@@ -38,7 +43,8 @@ figure(1)
 while true
     fprintf('Time: %1i\n', time+1)
     speed = rand(1,length(agentX));
-    [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
+    % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize,lowerX,midX,higherX,lowerY,higherY);
     agentChromosome = Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax);
     [agentAge,agentX,agentY,agentChromosome] = Age(agentX,agentY,agentChromosome,agentAge,maxLife);
     [agentAge,agentX,agentY,agentChromosome] = Mate(agentChromosome,agentAge,agentX,agentY,radius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize);    %population = Mutate(population,mutationProbability,mutationParameter,nGenes,mMin,mMax);
