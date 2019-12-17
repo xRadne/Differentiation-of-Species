@@ -25,7 +25,7 @@ axis([0 100 0 100]);
 
 I = imread('KondyorMassif5.png');
 I3 = flipdim(I ,1);
-h = image(xlim,ylim,I3);
+h = image(xlim,ylim,I3,'AlphaData',0.7);
 uistack(h,'bottom')
 hold off
 drawnow
