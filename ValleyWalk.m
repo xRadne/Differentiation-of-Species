@@ -10,12 +10,12 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
     index=iClosestFood;
     distance=squaredDistanceClosestFood;
     speedAux = speed;
-    logicalHungerParameter = hungerParameter >= maxHunger;
+    % logicalHungerParameter = hungerParameter >= maxHunger;
     % speed(speed.^2 > distance) = sqrt(distance);
     
     for idx = 1:length(speed)
         R = radius(idx);
-        if (speed(idx)*speed(idx) > distance(idx)) & (foodAmount(index(idx))>=0.1) & (distance(idx) < R^2) & (logicalHungerParameter(idx) ~= 1)
+        if (speed(idx)*speed(idx) > distance(idx)) & (foodAmount(index(idx))>=0.1) & (distance(idx) < R^2) & (hungerParameter(idx) < 0.5*maxHunger)
             speed(idx) = sqrt(distance(idx)) - 0.1; 
         end
     end
@@ -29,7 +29,7 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         else
             distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
         end
-        if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1 & (logicalHungerParameter(idx) ~= 1)
+        if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1 & (hungerParameter(idx) < 0.5*maxHunger)
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
@@ -39,10 +39,11 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
                 posX = posX + speed(idx)*cos(theta);
                 posY = posY + speed(idx)*sin(theta);
             end
-        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) >= 0.5*hungerParameter)
+        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) >= 0.5*maxHunger)
             if distanceClosestAgent > mateRadius^2
-                if (speed(idx)+speed(iClosestEligableMate(idx))) > goingRadius
-                speed(idx) = goingRadius/2 - 0.05;
+                if (speed(idx)+speed(iClosestEligableMate(idx))) > sqrt(distanceClosestAgent)
+                    speed(idx) = sqrt(distanceClosestAgent)/2 - 0.05;
+                    speed(iClosestEligableMate(idx)) = sqrt(distanceClosestAgent)/2 - 0.05;
                 end
                 if (agentX(iClosestEligableMate(idx))-agentX(idx)) > 0
                     theta = atan((agentY(iClosestEligableMate(idx))-agentY(idx))/(agentX(iClosestEligableMate(idx))-agentX(idx)));

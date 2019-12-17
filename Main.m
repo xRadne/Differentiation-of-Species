@@ -34,6 +34,8 @@ maxLife=100;
 deathParameter=0.001;
 hungerParameter=0.01;
 maxHunger=10;
+goingRadius = 3;
+mateRadius = 0.5;
 
 % INITIALIZE POPULATION
 time = 0;
@@ -71,7 +73,7 @@ while nAgents>0
     speed=(1-agentChromosome(1,:))*2;
     
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
-    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,10,0.5);
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius);
     
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY);
     nAgents=size(agentX,2);
