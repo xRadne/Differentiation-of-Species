@@ -43,7 +43,7 @@ agentChromosome=rand(nGenes,initialPopulationSize);
 agentAge=zeros(1,initialPopulationSize);
 agentHunger=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
-radius = sightParameter * ones(1,initialPopulationSize);
+sightRadius = sightParameter * ones(1,initialPopulationSize);
 speed=(1-agentChromosome(1,:).*2)*2;
 nAgents=initialPopulationSize;
 
@@ -56,22 +56,19 @@ foodType = rand(1,nFood);
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
 figure(1)
- 
-   
+
 while nAgents>0
-    
     fprintf('Time: %1i\n', time+1)
-    
 
     [agentHunger,foodAmount,foodX,foodY] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,foodType,foodEdabilityRange,biteSize,agentChromosome,gridSize);
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
 
     % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
      [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
-    [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax);
+    [agentAge,agentX,agentY,agentChromosome,sightRadius] = Mate(agentChromosome,agentAge,agentX,agentY,sightRadius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax);
 %     geneticDistance = GeneticDistance(agentChromosome); 
     speed=(1-agentChromosome(1,:).*2)*2;
-    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY);
+    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,biteSize,gridSize,lowerX,midX,higherX,lowerY,higherY);
  
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY);
     nAgents=size(agentX,2);
