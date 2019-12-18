@@ -1,10 +1,10 @@
 
-function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize,foodType)
+function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize,foodType,nAgents,time)
 
    % map=[linspace(1,0.001,length(foodType))',zeros(1,length(foodType))',zeros(1,length(foodType))'];
     %colormap(map)
     sizeFood=foodAmount.*200;
-   scatter(foodX,foodY,sizeFood,'r','filled');%foodType,'filled')
+   scatter(foodX,foodY,sizeFood, 'MarkerFaceColor',[0.5,0,0],'MarkerEdgeColor',[1,0,0]);%foodType,'filled')
 
    
 %     caxis('manual' )
@@ -12,8 +12,8 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
 %     colorbar
     hold on
 
-    sizeIndividual=agentChromosome(1,:).*100;
-    scatter(agentX,agentY,sizeIndividual,'MarkerFaceColor','k','MarkerEdgeColor',[0,0,0])%,'filled')%, sizeIndividual)
+    sizeIndividual=agentChromosome(1,:).*200;
+    scatter(agentX,agentY,sizeIndividual,'MarkerFaceColor','k','MarkerEdgeColor',[1,1,1])%,'filled')%, sizeIndividual)
     
    
     %valley
@@ -23,10 +23,14 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
 %     plot([midX higherX],[higherY higherY],'k','LineWidth', 3)
 %     plot([higherX higherX],[higherY lowerY],'k','LineWidth', 3)
     
-
+name = sprintf('time step = %d , number of agents = %d',time,nAgents);
+title(name);
+ax = gca;
+ax.TitleFontSizeMultiplier = 2.7;
 axis tight;
 axis([0 gridSize 0 gridSize]);
-
+yticklabels({});
+xticklabels({});
 %I = imread('KondyorMassif5.png');
 %I3 = flipdim(I ,1);
 %h = image(xlim,ylim,I3,'AlphaData',0.7);
@@ -34,7 +38,7 @@ axis([0 gridSize 0 gridSize]);
 
 I = imread('grass1.jpg');
 I3 = flipdim(I ,1);
-h = image(xlim,ylim,I3,'AlphaData',0.5);
+h = image(xlim,ylim,I3,'AlphaData',0.2);
 uistack(h,'bottom')
 hold off
 end

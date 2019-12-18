@@ -7,8 +7,8 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 5; 
-gridSize = 10;
+initialPopulationSize = 20; 
+gridSize = 100;
 maxFood = 1;
 biteSize = 0.1;
 foodRegenerateAmount = 0.01;
@@ -21,11 +21,11 @@ higherY = 68/100*gridSize;
 nFood = 20;
 foodRadius = 5;
 foodEdabilityRange = 1;
-distanceParameter = 2;
+distanceParameter = 1;
 matingProbability = 1.0; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
-matingDistance=0.1; % step size in walk function??
+matingDistance=0.5; % step size in walk function??
 sightParameter=50;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
@@ -61,6 +61,8 @@ valleyY = gridSize/2;
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
 fig=figure(1);
+% nAgent=title;
+% time=title;
 while nAgents>0
     fprintf('Time: %1i, N: %3i\n', time+1,nAgents)
 
@@ -77,7 +79,7 @@ while nAgents>0
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
     %[agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
     [agentX,agentY]=WhyNotWorking(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
-    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
+    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize),nAgents,time);
     nAgents=size(agentX,2);
     
     time = time + 1; % Timestep done
