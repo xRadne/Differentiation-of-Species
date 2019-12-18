@@ -25,7 +25,7 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         posY = agentY(idx);
         R = radius(idx);
         if iClosestEligableMate(idx) == 0
-            distanceClosestAgent = 1000;
+            distanceClosestAgent = inf;
         else
             distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
         end
