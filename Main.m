@@ -77,7 +77,8 @@ while nAgents>0
     speed=(1-agentChromosome(1,:))*2;
     
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
-    [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
+    % [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
+    [agentX,agentY] = WhyNotWorking(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
     
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize);
     nAgents=size(agentX,2);
