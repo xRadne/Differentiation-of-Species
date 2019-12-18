@@ -1,19 +1,19 @@
-function mutatedChromosome=Mutate(agentX,mutationProbability,mutationParameter,agentChromosome,mMin,mMax)
+function mutatedChromosome=Mutate(mutationProbability,mutationParameter,offspringChromosome,mMin,mMax)
 % Loops though every gene, and the gene is mutated with a
 % probability=mutationProbability. The mutationParameter decides the range
 % of the allowed mutation, and it is then checked whether or not the
 % resulting gene value is within the allowed range. 
-r=rand(2,length(agentX));
+r=rand(size(offspringChromosome,1),1);
 mutationIdx=find(r < mutationProbability);
 q=mutationParameter*(rand(1,length(mutationIdx))*2-1);
-agentChromosome(mutationIdx)=agentChromosome(mutationIdx)+q';
+offspringChromosome(mutationIdx)=offspringChromosome(mutationIdx)+q';
 
 
-agentChromosome(agentChromosome >mMax)=mMax;
-agentChromosome(agentChromosome <mMin)=mMin;
+offspringChromosome(offspringChromosome >mMax)=mMax;
+offspringChromosome(offspringChromosome <mMin)=mMin;
 
 
-mutatedChromosome=agentChromosome;
+mutatedChromosome=offspringChromosome;
 
 
 end

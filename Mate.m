@@ -1,4 +1,4 @@
-function [agentAge,agentX,agentY,agentChromosome,radius] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize)
+function [agentAge,agentX,agentY,agentChromosome,radius,agentHunger] = Mate(agentChromosome,agentAge,agentX,agentY,radius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax,maxHunger,agentHunger)
 %GENETICDISTANCE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -21,8 +21,11 @@ for i=1:nAgents
             end
             r=rand;
             
-            if(any(foodDistance1<~foodRadius) && any(foodDistance2<~foodRadius))
+            if not(any(foodDistance1<foodRadius)) && not(any(foodDistance2<foodRadius)) && agentHunger(i)>0.5*maxHunger && agentHunger(j)>0.5*maxHunger
                 if(distance<matingDistance && geneticDistance(i,j)<distanceParameter && r<matingProbability)
+                    agentHunger(i)=0.5*maxHunger;
+                    agentHunger(j)=0.5*maxHunger;
+                    
                     iOffspring=iOffspring+1;
                     for iGene=1:nGenes
                         r=rand;
@@ -32,10 +35,12 @@ for i=1:nAgents
                             agentChromosome(:,iOffspring)=agentChromosome(:,j);
                         end
                     end
+                    agentChromosome(:,iOffspring) = Mutate(mutationProbability,mutationParameter,agentChromosome(:,iOffspring),mMin,mMax);
                     agentAge(iOffspring)=0;
                     agentX(iOffspring)=agentX(i)+matingDistance;
                     agentY(iOffspring)=agentY(i)+matingDistance;
                     radius(iOffspring)=sightParameter*rand;
+                    agentHunger(iOffspring)=maxHunger*0.5;
                     
                 end
             end
@@ -46,6 +51,5 @@ agentX(agentX>gridSize)=gridSize;
 agentY(agentY>gridSize)=gridSize;
 agentX(agentX<0)=0;
 agentX(agentX<0)=0;
-
 end
 

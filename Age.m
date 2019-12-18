@@ -1,14 +1,33 @@
-function [aliveAge,aliveX,aliveY,aliveChromosome]=Age(agentX,agentY,agentChromosome,agentAge,maxLife)
+function [agentAge,agentX,agentY,agentChromosome,agentHunger]=Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger)
 
 % age function. the higher age, the higher the risk of dying
  
      agentAge=agentAge+1; 
 
-     deathParameter=randi([1,maxLife],1,length(agentAge));
-     aliveIdx=find(agentAge < deathParameter);
-     aliveAge=agentAge(aliveIdx);
-     aliveX=agentX(aliveIdx);
-     aliveY=agentY(aliveIdx);
-     aliveChromosome=agentChromosome(:,aliveIdx);
-    
+     deathVector=randi([1,maxLife],1,length(agentAge));
+     deadIdx=find(agentAge > deathVector);
+     deadIdx=deadIdx.*(rand(1,length(deadIdx))<deathParameter);
+     deadIdx=nonzeros(deadIdx);
+     
+     agentAge(deadIdx)=[];
+     agentX(deadIdx)=[];
+     agentY(deadIdx)=[];
+     agentChromosome(:,deadIdx)=[];
+     agentHunger(deadIdx)=[];
+     
+      
+ % starvation:
+ 
+     agentHunger=agentHunger-hungerParameter;
+     starve=find(agentHunger<0);
+     agentHunger(starve)=[];
+     agentAge(starve)=[];
+     agentX(starve)=[];
+     agentY(starve)=[];
+     agentChromosome(:,starve)=[];
+ 
+     % cap hunger at maxHunger
+     agentHunger(agentHunger>maxHunger)=maxHunger;
+ 
+ 
  end
