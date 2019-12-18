@@ -59,9 +59,7 @@ valleyY = 50;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
-filename = sprintf('TryingGifs.gif');
-fig=figure(1)
-idx=1;
+fig=figure(1);
 while nAgents>0
     fprintf('Time: %1i, N: %3i\n', time+1,nAgents)
 
@@ -81,19 +79,38 @@ while nAgents>0
     
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize);
     nAgents=size(agentX,2);
+    
     time = time + 1; % Timestep done
-   
-    frame = getframe(fig);
+    frames(time) = getframe(fig);
+end
+
+%% SAVE VIDEO
+writerObj = VideoWriter('Video.avi');
+writerObj.FrameRate = 10;
+open(writerObj);
+
+for i=1:length(frames)
+    frame = frames(i) ;    
+    writeVideo(writerObj, frame);
+end
+close(writerObj);
+
+%% SAVE GIF
+filename = sprintf('Test.gif');
+open(writerObj);
+for i=1:length(frames)
+    frame = frames(i);
     im = frame2im(frame);
     [imind1,cm]=rgb2ind(im,256);
     
-    if idx==1
+    writeVideo(writerObj, frame);
+    if i==1
         imwrite(imind1,cm,filename,'gif','Loopcount',inf);
     else
         imwrite(imind1,cm,filename,'gif','WriteMode','append');
     end
-    idx=idx+1;
 end
+close(writerObj);
 
 %% DISPLAY DATA
 figure(1); clf;

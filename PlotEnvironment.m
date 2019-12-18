@@ -28,5 +28,4 @@ I3 = flipdim(I ,1);
 h = image(xlim,ylim,I3,'AlphaData',0.7);
 uistack(h,'bottom')
 hold off
-drawnow
 end
