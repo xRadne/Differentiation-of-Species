@@ -13,7 +13,7 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     hold on
 
     sizeIndividual=agentChromosome(1,:).*100;
-    scatter(agentX,agentY,sizeIndividual,'w','filled')%, sizeIndividual)
+    scatter(agentX,agentY,sizeIndividual,'MarkerFaceColor','k','MarkerEdgeColor',[0,0,0])%,'filled')%, sizeIndividual)
     
    
     %valley
@@ -31,5 +31,10 @@ axis([0 gridSize 0 gridSize]);
 %I3 = flipdim(I ,1);
 %h = image(xlim,ylim,I3,'AlphaData',0.7);
 %uistack(h,'bottom')
+
+I = imread('grass1.jpg');
+I3 = flipdim(I ,1);
+h = image(xlim,ylim,I3,'AlphaData',0.5);
+uistack(h,'bottom')
 hold off
 end

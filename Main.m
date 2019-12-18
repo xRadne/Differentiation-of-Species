@@ -7,8 +7,8 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 10; 
-gridSize = 100;
+initialPopulationSize = 5; 
+gridSize = 10;
 maxFood = 1;
 biteSize = 0.1;
 foodRegenerateAmount = 0.01;
@@ -18,14 +18,14 @@ midX = 50/100*gridSize;
 higherX = 75/100*gridSize;
 lowerY = 30/100*gridSize;
 higherY = 68/100*gridSize;
-nFood = 100;
+nFood = 20;
 foodRadius = 5;
-foodEdabilityRange = 0.3;
-distanceParameter = 0.3;
+foodEdabilityRange = 1;
+distanceParameter = 2;
 matingProbability = 1.0; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
-matingDistance=0.5; % step size in walk function??
+matingDistance=0.1; % step size in walk function??
 sightParameter=50;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
@@ -42,7 +42,7 @@ agentX=randi([0, gridSize],1,initialPopulationSize);
 agentY=randi([0, gridSize],1,initialPopulationSize);
 agentChromosome=rand(nGenes,initialPopulationSize); 
 agentAge=zeros(1,initialPopulationSize);
-agentHunger=ones(1,initialPopulationSize);
+agentHunger=ones(1,initialPopulationSize).*maxHunger;
 geneticDistance = GeneticDistance(agentChromosome); 
 sightRadius = sightParameter * ones(1,initialPopulationSize);
 speed=(1-agentChromosome(1,:))*2;
@@ -76,7 +76,7 @@ while nAgents>0
     
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
     %[agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
-    [agentX,agentY]=Walk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,gridSize);
+    [agentX,agentY]=WhyNotWorking(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
     PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
     nAgents=size(agentX,2);
     

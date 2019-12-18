@@ -1,4 +1,4 @@
-function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize,squaredDistanceClosestFood,iClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize,hungerParameter,maxHunger)
+function [newAgentX,newAgentY] = NoValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize)
     
     nAgents = length(agentY);
     newAgentX = zeros(1,nAgents);
@@ -7,33 +7,29 @@ function [newAgentX,newAgentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foo
     foodAgentY = foodY - agentY';
     %distanceSquared = (foodAgentX).^2 + (foodAgentY).^2;
     %[distance,index] = min(distanceSquared,[],2);
-    index=iClosestFood;
-    distance=squaredDistanceClosestFood;
+    index = iClosestFood;
+    distance = squaredDistanceClosestFood;
     speedAux = speed;
+    % logicalHungerParameter = hungerParameter >= maxHunger;
+    % speed(speed.^2 > distance) = sqrt(distance);
     
     for idx = 1:length(speed)
         R = radius(idx);
-        if (speed(idx)*speed(idx) > distance(idx)) & foodAmount(index(idx))>=0.1 & (distance(idx) < R^2)
-            speed(idx) = sqrt(distance(idx)) - 0.1;
+        if (speed(idx)*speed(idx) > distance(idx)) & (foodAmount(index(idx))>=0.1) & (distance(idx) < R^2) & (hungerParameter(idx) < 0.5*maxHunger)
+            speed(idx) = sqrt(distance(idx)) - 0.1; 
         end
     end
-
+   
     for idx = 1:length(agentY)
         posX = agentX(idx);
         posY = agentY(idx);
         R = radius(idx);
         if iClosestEligableMate(idx) == 0
             distanceClosestAgent = inf;
-
-            posXMate = inf;
-            posYMate = inf;
-
         else
             distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
-            posXMate = agentX(iClosestEligableMate(idx));
-            posYMate = agentY(iClosestEligableMate(idx));
         end
-        if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1 & hungerParameter(idx)<0.5*maxHunger
+        if (distance(idx) < R^2) & foodAmount(index(idx))>=biteSize & (hungerParameter(idx) <= 0.5*maxHunger)
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
