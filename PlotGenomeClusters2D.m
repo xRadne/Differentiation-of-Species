@@ -18,6 +18,8 @@ function [] = PlotGenomeClusters2D(gene1, gene2, components)
         plot(gene1Component, gene2Component,'.','Color',rgbColor(c,:),'MarkerSize',10)
         plot(mean(gene1Component), mean(gene2Component),'kx','MarkerSize',10)
     end
+    axis([0 1 0 1])
+    drawnow
     hold off
 end
 

@@ -18,10 +18,10 @@ midX = 50/100*gridSize;
 higherX = 75/100*gridSize;
 lowerY = 30/100*gridSize;
 higherY = 68/100*gridSize;
-nFood = 10;
+nFood = 100;
 foodRadius = 5;
-foodEdabilityRange = 1.0;
-distanceParameter = 2.0;
+foodEdabilityRange = 0.3;
+distanceParameter = 0.3;
 matingProbability = 1.0; % set to reasonable value
 mutationProbability=0.2; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
@@ -31,7 +31,7 @@ mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
 deathParameter=0.001;
-hungerParameter=0.001;
+hungerParameter=0.01;
 maxHunger=10;
 goingRadius = sightParameter;
 mateRadius = matingDistance;
@@ -54,6 +54,8 @@ foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 foodAmount = rand(1,nFood) * maxFood;
 foodType = rand(1,nFood);
+valleyX = 50;
+valleyY = 50;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
@@ -63,7 +65,8 @@ while nAgents>0
     fprintf('Time: %1i, N: %3i\n', time+1,nAgents)
 
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
-
+    foodType = sqrt((foodX-valleyX).^2 + (foodY-valleyY).^2) / (sqrt(2)*gridSize);
+    
     % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
     [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
     [agentAge,agentX,agentY,agentChromosome,sightRadius,agentHunger] = Mate(agentChromosome,agentAge,agentX,agentY,sightRadius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax,maxHunger,agentHunger);
