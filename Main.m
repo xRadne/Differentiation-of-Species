@@ -41,7 +41,10 @@ agentAge=zeros(1,initialPopulationSize);
 agentHunger=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
 sightRadius = sightParameter * ones(1,initialPopulationSize);
-speed=(1-agentChromosome(1,:))*2;
+%speed=(1-agentChromosome(1,:))*2;
+maxSpeed=2;
+minSpeed=1;
+%speed=[maxSpeed:minSpeed].*(1-agentChromosome(1,:));
 nAgents=initialPopulationSize;
 geneticDistanceParameter = distanceParameter;
 
