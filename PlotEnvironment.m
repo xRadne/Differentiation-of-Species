@@ -30,5 +30,4 @@ axis([0 gridSize 0 gridSize]);
 %h = image(xlim,ylim,I3,'AlphaData',0.7);
 %uistack(h,'bottom')
 hold off
-drawnow
 end
