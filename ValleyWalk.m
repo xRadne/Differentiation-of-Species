@@ -7,8 +7,8 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
     foodAgentY = foodY - agentY';
     %distanceSquared = (foodAgentX).^2 + (foodAgentY).^2;
     %[distance,index] = min(distanceSquared,[],2);
-    index=iClosestFood;
-    distance=squaredDistanceClosestFood;
+    index = iClosestFood;
+    distance = squaredDistanceClosestFood;
     speedAux = speed;
     % logicalHungerParameter = hungerParameter >= maxHunger;
     % speed(speed.^2 > distance) = sqrt(distance);
@@ -43,7 +43,12 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         else
             location2 = 1; % The mate is outside the valley
         end
-        if (distance(idx) < R^2) & foodAmount(index(idx))>=biteSize & (hungerParameter(idx) <= 0.5*maxHunger)
+        if (foodX(index(idx)) >= lowerX) & (foodX(index(idx)) <= higherX) & (foodY(index(idx)) >= lowerY) & (foodY(index(idx)) <= higherY)
+            locationFood = 0; % The food is inside the valley
+        else
+            locationFood = 1; % The food is outside the valley
+        end
+        if (distance(idx) < R^2) & foodAmount(index(idx))>=biteSize & (hungerParameter(idx) <= 0.5*maxHunger) & (location1 == locationFood)
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
