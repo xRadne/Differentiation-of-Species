@@ -57,8 +57,9 @@ foodType = rand(1,nFood);
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
-figure(1)
-
+filename = sprintf('TryingGifs.gif');
+fig=figure(1)
+idx=1;
 while nAgents>0
     fprintf('Time: %1i, N: %3i\n', time+1,nAgents)
 
@@ -79,8 +80,16 @@ while nAgents>0
     nAgents=size(agentX,2);
     time = time + 1; % Timestep done
    
-
+    frame = getframe(fig);
+    im = frame2im(frame);
+    [imind1,cm]=rgb2ind(im,256);
     
+    if idx==1
+        imwrite(imind1,cm,filename,'gif','Loopcount',inf);
+    else
+        imwrite(imind1,cm,filename,'gif','WriteMode','append');
+    end
+    idx=idx+1;
 end
 
 %% DISPLAY DATA
