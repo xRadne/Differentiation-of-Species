@@ -25,9 +25,23 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         posY = agentY(idx);
         R = radius(idx);
         if iClosestEligableMate(idx) == 0
-            distanceClosestAgent = 1000;
+            distanceClosestAgent = inf;
+            posXMate = inf;
+            posYMate = inf;
         else
             distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
+            posXMate = agentX(iClosestEligableMate(idx));
+            posYMate = agentY(iClosestEligableMate(idx));
+        end
+        if (posX >= lowerX) & (posX <= higherX) & (posY >= lowerY) & (posY <= higherY)
+            location1 = 0; % The agent is inside the valley
+        else
+            location1 = 1; % The agent is outside the valley
+        end
+        if (posXMate >= lowerX) & (posXMate <= higherX) & (posYMate >= lowerY) & (posYMate <= higherY)
+            location2 = 0; % The mate is inside the valley
+        else
+            location2 = 1; % The mate is outside the valley
         end
         if (distance(idx) < R^2) & foodAmount(index(idx))>=biteSize & (hungerParameter(idx) <= 0.5*maxHunger)
             if (foodAgentX(idx,index(idx)) > 0)
@@ -39,7 +53,7 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
                 posX = posX + speed(idx)*cos(theta);
                 posY = posY + speed(idx)*sin(theta);
             end
-        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) > 0.5*maxHunger)
+        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) > 0.5*maxHunger) & (location1 == location2)
             if distanceClosestAgent > mateRadius^2
                 if (speed(idx)+speed(iClosestEligableMate(idx))) > sqrt(distanceClosestAgent)
                     speed(idx) = sqrt(distanceClosestAgent)/2 - 0.05;
