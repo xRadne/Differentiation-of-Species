@@ -1,5 +1,5 @@
 
-function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize,foodType)
+function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize,foodType,time,nAgents)
 
     map=[linspace(1,0.001,length(foodType))',zeros(1,length(foodType))',zeros(1,length(foodType))'];
     colormap(map)
@@ -10,7 +10,7 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     colorbar
     hold on
 
-    sizeIndividual=agentChromosome(1,:).*100;
+    sizeIndividual=agentChromosome(1,:).*200;
     scatter(agentX,agentY,sizeIndividual,'w','filled')%, sizeIndividual)
     
    
@@ -20,7 +20,10 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     plot([lowerX lowerX],[lowerY higherY],'k','LineWidth', 3)
     plot([midX higherX],[higherY higherY],'k','LineWidth', 3)
     plot([higherX higherX],[higherY lowerY],'k','LineWidth', 3)
-    
+name = sprintf('time step = %d , number of agents = %d',time,nAgents);
+title(name);
+ax = gca;
+ax.TitleFontSizeMultiplier = 2.7;
 
 axis tight;
 axis([0 gridSize 0 gridSize]);
