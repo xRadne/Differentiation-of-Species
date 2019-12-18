@@ -21,8 +21,11 @@ for i=1:nAgents
             end
             r=rand;
             
-            if not(any(foodDistance1<foodRadius)) && not(any(foodDistance2<foodRadius))
+            if not(any(foodDistance1<foodRadius)) && not(any(foodDistance2<foodRadius)) && agentHunger(i)>0.5*maxHunger && agentHunger(j)>0.5*maxHunger
                 if(distance<matingDistance && geneticDistance(i,j)<distanceParameter && r<matingProbability)
+                    agentHunger(i)=0.5*maxHunger;
+                    agentHunger(j)=0.5*maxHunger;
+                    
                     iOffspring=iOffspring+1;
                     for iGene=1:nGenes
                         r=rand;
@@ -37,7 +40,7 @@ for i=1:nAgents
                     agentX(iOffspring)=agentX(i)+matingDistance;
                     agentY(iOffspring)=agentY(i)+matingDistance;
                     radius(iOffspring)=sightParameter*rand;
-                    agentHunger(iOffspring)=maxHunger;
+                    agentHunger(iOffspring)=maxHunger*0.5;
                     
                 end
             end

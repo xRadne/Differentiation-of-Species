@@ -1,4 +1,4 @@
-function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius)
+function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,hungerParameter,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize)
     
     nAgents = length(agentY);
     newAgentX = zeros(1,nAgents);
@@ -29,7 +29,7 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
         else
             distanceClosestAgent = (agentX(idx) - agentX(iClosestEligableMate(idx)))^2 + (agentY(idx) - agentY(iClosestEligableMate(idx)))^2;
         end
-        if (distance(idx) < R^2) & foodAmount(index(idx))>=0.1 & (hungerParameter(idx) < 0.5*maxHunger)
+        if (distance(idx) < R^2) & foodAmount(index(idx))>=biteSize & (hungerParameter(idx) <= 0.5*maxHunger)
             if (foodAgentX(idx,index(idx)) > 0)
                 theta = atan(foodAgentY(idx,index(idx))/foodAgentX(idx,index(idx)));
                 posX = posX + speed(idx)*cos(theta);
@@ -39,7 +39,7 @@ function [newAgentX,newAgentY] = ValleyWalk(agentX,agentY,speed,radius,foodX,foo
                 posX = posX + speed(idx)*cos(theta);
                 posY = posY + speed(idx)*sin(theta);
             end
-        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) >= 0.5*maxHunger)
+        elseif (distanceClosestAgent < goingRadius^2) & (hungerParameter(idx) > 0.5*maxHunger)
             if distanceClosestAgent > mateRadius^2
                 if (speed(idx)+speed(iClosestEligableMate(idx))) > sqrt(distanceClosestAgent)
                     speed(idx) = sqrt(distanceClosestAgent)/2 - 0.05;
