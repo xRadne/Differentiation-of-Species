@@ -7,7 +7,7 @@
 
 clear;
 nGenes = 2;
-initialPopulationSize = 80; 
+initialPopulationSize = 100; 
 gridSize = 100;
 maxFood = 1;
 biteSize = 0.1;
@@ -21,16 +21,16 @@ higherY = 68/100*gridSize;
 nFood = 100;
 foodRadius = 5;
 foodEdabilityRange = 0.3;
-distanceParameter = 0.3;
+distanceParameter = 0.2;
 matingProbability = 1.0; % set to reasonable value
-mutationProbability=0.2; % set to reasonable value
+mutationProbability=0.3; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 matingDistance=0.5; % step size in walk function??
 sightParameter=50;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
-deathParameter=0.01;
+deathParameter=0.001;
 hungerParameter=0.01;
 maxHunger=10;
 goingRadius = sightParameter;
@@ -77,16 +77,28 @@ while nAgents>0
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
     [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
     
-    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize),time,nAgents);
+    %PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize),time,nAgents);
     nAgents=size(agentX,2);
     
     time = time + 1; % Timestep done
     frames(time) = getframe(fig);
+    species = ComputeComponents(agentChromosome,distanceParameter);
+    
+    name = sprintf('time step = %d , number of agents = %d',time,nAgents);
+    title(name);
+    ax = gca;
+    ax.TitleFontSizeMultiplier = 2.7;
+    xlabel('gene 1','FontSize',25)
+    ylabel('gene 2','FontSize',25)
+    
+     cla
+    PlotGenomeClusters2D(agentChromosome(1,:),agentChromosome(2,:),species);
+    
 end
 
 %% SAVE VIDEO
 writerObj = VideoWriter('Video.avi');
-writerObj.FrameRate = 10;
+writerObj.FrameRate = 100;
 open(writerObj);
 
 for i=1:length(frames)
