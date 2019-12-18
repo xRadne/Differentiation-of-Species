@@ -37,4 +37,5 @@ function [agentHunger,foodAmount,foodX,foodY,iClosestFood,squaredDistanceClosest
     % MOVE EMPTY FOOD RESOURCES
     foodX(~foodLeft) = gridSize * rand(1, sum(~foodLeft));
     foodY(~foodLeft) = gridSize * rand(1, sum(~foodLeft));
+
 end

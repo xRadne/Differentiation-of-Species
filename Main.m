@@ -11,7 +11,7 @@ initialPopulationSize = 15;
 gridSize = 100;
 maxFood = 1;
 biteSize = 0.1;
-foodRegenerateAmount = 0.08;
+foodRegenerateAmount = 0.04;
 
 lowerX = 40/100*gridSize;
 midX = 50/100*gridSize;
@@ -23,10 +23,10 @@ foodRadius = 5;
 foodEdabilityRange = 0.3;
 distanceParameter = 0.3;
 matingProbability = 1.0; % set to reasonable value
-mutationProbability=0.5; % set to reasonable value
-mutationParameter=0.2; % set to reasonable value
+mutationProbability=0.25; % set to reasonable value
+mutationParameter=0.05; % set to reasonable value
 matingDistance=0.5; % step size in walk function??
-sightParameter=20;
+sightParameter=50;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
@@ -41,8 +41,8 @@ speedParameter=4;
 time = 0;
 agentX=randi([0, gridSize],1,initialPopulationSize); 
 agentY=randi([0, gridSize],1,initialPopulationSize);
-%agentChromosome=rand(nGenes,initialPopulationSize); 
-agentChromosome=zeros(nGenes,initialPopulationSize)+0.5; 
+agentChromosome=rand(nGenes,initialPopulationSize); 
+%agentChromosome=zeros(nGenes,initialPopulationSize)+0.5; 
 agentAge=zeros(1,initialPopulationSize);
 agentHunger=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
@@ -59,6 +59,9 @@ foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 foodAmount = rand(1,nFood) * maxFood;
 foodType = rand(1,nFood);
+% foodType(1,1:ceil(nFood/3))=1/6;
+% foodType(1,ceil(nFood/3):ceil(2*nFood/3))=1/2;
+% foodType(1,ceil(2*nFood/3):end)=5/6;
 valleyX = gridSize/2;
 valleyY = gridSize/2;
 
@@ -88,20 +91,25 @@ while nAgents>0
     populationSizeVector(1,time)=nAgents;
     frames(time) = getframe(fig);
     
-    if(mod(time,100)==0)
-        mutationProbability=mutationProbability*0.9; % set to reasonable value
-        mutationParameter=mutationParameter*0.9;
-        if(mutationParameter<0.05)
-            mutationParameter=0.05;
-        end
-        if(mutationParameter<0.2)
-            mutationParameter=0.2;
-        end
-    end
+    figure(1); clf;
+    species = ComputeComponents(agentChromosome,distanceParameter);
+    PlotGenomeClusters2D(agentChromosome(1,:),agentChromosome(2,:),species);
+
+    
+%     if(mod(time,100)==0)
+%         mutationProbability=mutationProbability*0.9; % set to reasonable value
+%         mutationParameter=mutationParameter*0.9;
+%         if(mutationParameter<0.05)
+%             mutationParameter=0.05;
+%         end
+%         if(mutationParameter<0.2)
+%             mutationParameter=0.2;
+%         end
+%     end
 end
 
 %% SAVE VIDEO
-writerObj = VideoWriter('Video.avi');
+writerObj = VideoWriter('Video3.avi');
 writerObj.FrameRate = 10;
 open(writerObj);
 
