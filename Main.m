@@ -49,26 +49,28 @@ speed=(1-agentChromosome(1,:))*2;
 nAgents=initialPopulationSize;
 geneticDistanceParameter = distanceParameter;
 
+
 % INITIALIZE FOOD
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 foodAmount = rand(1,nFood) * maxFood;
 foodType = rand(1,nFood);
-valleyX = 50;
-valleyY = 50;
+valleyX = gridSize/2;
+valleyY = gridSize/2;
 
 %% MAIN LOOP
 % Stop the program by selecting the command window and press: 'Ctrl + C'
-filename = sprintf('TryingGifs.gif');
-fig=figure(1)
-idx=1;
+% filename = sprintf('TryingGifs.gif');
+ fig=figure(1)
+ PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
+ colorbar
+% idx=1;
 while nAgents>0
     fprintf('Time: %1i, N: %3i\n', time+1,nAgents)
 
     foodAmount(foodAmount<maxFood) = foodAmount(foodAmount<maxFood) + foodRegenerateAmount;
-    foodType = sqrt((foodX-valleyX).^2 + (foodY-valleyY).^2) / (sqrt(2)*gridSize);
+    foodType = sqrt((foodX-valleyX).^2 + (foodY-valleyY).^2) / (sqrt(2)*gridSize/2);
     
-    % [agentX,agentY] = Walk(agentX,agentY,speed,radius,foodX,foodY,foodAmount,gridSize); 
     [agentAge,agentX,agentY,agentChromosome,agentHunger] = Age(agentX,agentY,agentChromosome,agentAge,maxLife,deathParameter,agentHunger,hungerParameter,maxHunger);
     [agentAge,agentX,agentY,agentChromosome,sightRadius,agentHunger] = Mate(agentChromosome,agentAge,agentX,agentY,sightRadius,foodX,foodY,foodRadius,matingDistance,geneticDistance,distanceParameter,matingProbability,sightParameter,gridSize,mutationProbability,mutationParameter,mMin,mMax,maxHunger,agentHunger);
     [agentHunger,foodAmount,foodX,foodY,iClosestFood,squaredDistanceClosestFood] = Eat(agentX,agentY,agentHunger,foodX,foodY,foodAmount,foodRadius,foodType,foodEdabilityRange,biteSize,agentChromosome,gridSize);
@@ -83,16 +85,17 @@ while nAgents>0
     nAgents=size(agentX,2);
     time = time + 1; % Timestep done
    
-    frame = getframe(fig);
-    im = frame2im(frame);
-    [imind1,cm]=rgb2ind(im,256);
-    
-    if idx==1
-        imwrite(imind1,cm,filename,'gif','Loopcount',inf);
-    else
-        imwrite(imind1,cm,filename,'gif','WriteMode','append');
-    end
-    idx=idx+1;
+%     frame = getframe(fig);
+%     im = frame2im(frame);
+%     [imind1,cm]=rgb2ind(im,256);
+%     
+%     if idx==1
+%         imwrite(imind1,cm,filename,'gif','Loopcount',inf);
+%     else
+%         imwrite(imind1,cm,filename,'gif','WriteMode','append');
+%     end
+%     idx=idx+1;
+
 end
 
 %% DISPLAY DATA

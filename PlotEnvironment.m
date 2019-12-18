@@ -6,6 +6,9 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     axis([]);
     sizeFood=foodAmount.*200;
     scatter(foodX,foodY,sizeFood,foodType,'filled')
+    caxis('manual' )
+    caxis([0 1])
+    colorbar
     hold on
 
     sizeIndividual=agentChromosome(1,:).*100;
