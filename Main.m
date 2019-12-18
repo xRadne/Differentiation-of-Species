@@ -8,22 +8,18 @@
 clear;
 nGenes = 2;
 initialPopulationSize = 10; 
-gridSize = 100;
-maxFood = 1;
-biteSize = 0.1;
-foodRegenerateAmount = 0.01;
 
+% INITIALIZE MAP
+gridSize = 100;
 lowerX = 40/100*gridSize;
 midX = 50/100*gridSize;
 higherX = 75/100*gridSize;
 lowerY = 30/100*gridSize;
 higherY = 68/100*gridSize;
-nFood = 100;
-foodRadius = 5;
-foodEdabilityRange = 0.5;
-distanceParameter = 0.3;
+
+distanceParameter = 0.1;
 matingProbability = 1.0; % set to reasonable value
-mutationProbability=0.2; % set to reasonable value
+mutationProbability=0.3; % set to reasonable value
 mutationParameter=0.05; % set to reasonable value
 matingDistance=0.5; % step size in walk function??
 sightParameter=50;
@@ -31,7 +27,7 @@ mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
 maxLife=100;
 deathParameter=0.001;
-hungerParameter=0.001;
+hungerParameter=0.01;
 maxHunger=10;
 goingRadius = sightParameter;
 mateRadius = matingDistance;
@@ -50,6 +46,12 @@ nAgents=initialPopulationSize;
 geneticDistanceParameter = distanceParameter;
 
 % INITIALIZE FOOD
+maxFood = 1;
+biteSize = 0.5;
+nFood = 20;
+foodRadius = 5;
+foodEdabilityRange = 0.5;
+foodRegenerateAmount = 0.01;
 foodX = rand(1,nFood) * gridSize;
 foodY = rand(1,nFood) * gridSize;
 foodAmount = rand(1,nFood) * maxFood;
