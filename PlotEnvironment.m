@@ -1,11 +1,13 @@
 
-function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize)
+function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize,foodType)
 
-    %map=[zeros(1,length(agentX))',zeros(1,length(agentX))',linspace(1,0.001,length(agentX))'];
-    %colormap(map)
-    axis([]);
+    map=[linspace(1,0.001,length(foodType))',zeros(1,length(foodType))',zeros(1,length(foodType))'];
+    colormap(map)
     sizeFood=foodAmount.*200;
-    scatter(foodX,foodY,sizeFood,'r','filled')
+    scatter(foodX,foodY,sizeFood,foodType,'filled')
+    caxis('manual' )
+    caxis([0 1])
+    colorbar
     hold on
 
     sizeIndividual=agentChromosome(1,:).*100;
