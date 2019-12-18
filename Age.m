@@ -14,12 +14,7 @@ function [agentAge,agentX,agentY,agentChromosome,agentHunger]=Age(agentX,agentY,
      agentY(deadIdx)=[];
      agentChromosome(:,deadIdx)=[];
      agentHunger(deadIdx)=[];
-     % 
-%      tooOld=find(agentAge>maxLife);
-%      agentAge(tooOld)=[];
-%      agentX(tooOld)=[];
-%      agentY(tooOld)=[];
-%      agentChromosome(:,tooOld)=[];
+     
       
  % starvation:
  

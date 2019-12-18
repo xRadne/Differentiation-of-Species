@@ -1,5 +1,5 @@
 
-function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY)
+function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmount,lowerX,midX,higherX,lowerY,higherY,gridSize)
 
     %map=[zeros(1,length(agentX))',zeros(1,length(agentX))',linspace(1,0.001,length(agentX))'];
     %colormap(map)
@@ -21,7 +21,7 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
     
 
 axis tight;
-axis([0 100 0 100]);
+axis([0 gridSize 0 gridSize]);
 
 I = imread('KondyorMassif5.png');
 I3 = flipdim(I ,1);
