@@ -39,7 +39,7 @@ for i=1:nAgents
                     agentAge(iOffspring)=0;
                     agentX(iOffspring)=agentX(i)+matingDistance;
                     agentY(iOffspring)=agentY(i)+matingDistance;
-                    radius(iOffspring)=sightParameter*rand;
+                    radius(iOffspring)=sightParameter;
                     agentHunger(iOffspring)=maxHunger*0.5;
                     
                 end
