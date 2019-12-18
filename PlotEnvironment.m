@@ -4,14 +4,16 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
    % map=[linspace(1,0.001,length(foodType))',zeros(1,length(foodType))',zeros(1,length(foodType))'];
     %colormap(map)
     sizeFood=foodAmount.*200;
-    scatter(foodX,foodY,sizeFood,foodType,'filled')
-    caxis('manual' )
-    caxis([0 1])
-    colorbar
+   scatter(foodX,foodY,sizeFood,'r','filled');%foodType,'filled')
+
+   
+%     caxis('manual' )
+%     caxis([0 1])
+%     colorbar
     hold on
 
     sizeIndividual=agentChromosome(1,:).*100;
-    scatter(agentX,agentY,sizeIndividual,'b','filled')%, sizeIndividual)
+    scatter(agentX,agentY,sizeIndividual,'w','filled')%, sizeIndividual)
     
    
     %valley
