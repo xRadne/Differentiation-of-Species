@@ -18,7 +18,7 @@ midX = 50/100*gridSize;
 higherX = 75/100*gridSize;
 lowerY = 30/100*gridSize;
 higherY = 68/100*gridSize;
-nFood = 60;
+nFood = 100;
 foodRadius = 5;
 foodEdabilityRange = 0.3;
 distanceParameter = 0.3;
@@ -29,7 +29,7 @@ matingDistance=0.5; % step size in walk function??
 sightParameter=20;
 mMin=0.0001; % set to reasonable value
 mMax=0.9999; % set to reasonable value
-maxLife=100;
+maxLife=100000;
 deathParameter=0.001;
 hungerParameter=0.01;
 maxHunger=10;
@@ -47,7 +47,7 @@ agentAge=zeros(1,initialPopulationSize);
 agentHunger=ones(1,initialPopulationSize);
 geneticDistance = GeneticDistance(agentChromosome); 
 sightRadius = sightParameter * ones(1,initialPopulationSize);
-speed=(1-agentChromosome(1,:))*speedParameter;
+speed=(2-agentChromosome(1,:))*speedParameter;
 nAgents=initialPopulationSize;
 geneticDistanceParameter = distanceParameter;
 populationSizeVector=[];
@@ -81,7 +81,7 @@ while nAgents>0
     iClosestEligableMate = ClosestEligableMate(agentX,agentY,agentChromosome,geneticDistanceParameter);
     [agentX,agentY] = ValleyWalk(agentX,agentY,speed,sightRadius,foodX,foodY,foodAmount,agentHunger,maxHunger,gridSize,lowerX,midX,higherX,lowerY,higherY,iClosestFood,squaredDistanceClosestFood,iClosestEligableMate,goingRadius,mateRadius,biteSize);
     
-    %PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
+    PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
     nAgents=size(agentX,2);
     
     time = time + 1; % Timestep done
@@ -89,6 +89,14 @@ while nAgents>0
     frames(time) = getframe(fig);
     
     if(mod(time,100)==0)
+        figure(1);
+        PlotEnvironment(agentX,agentY,foodX(foodAmount>biteSize),foodY(foodAmount>biteSize),agentChromosome,foodAmount(foodAmount>biteSize),lowerX,midX,higherX,lowerY,higherY,gridSize,foodType(foodAmount>biteSize));
+    
+        figure(2); clf;
+        species = ComputeComponents(agentChromosome,distanceParameter);
+        PlotGenomeClusters2D(agentChromosome(1,:),agentChromosome(2,:),species);
+        figure(1);
+        
         mutationProbability=mutationProbability*0.9; % set to reasonable value
         mutationParameter=mutationParameter*0.9;
         if(mutationParameter<0.05)
