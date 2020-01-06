@@ -3,14 +3,14 @@ function [] = PlotEnvironment(agentX,agentY,foodX,foodY,agentChromosome,foodAmou
 
     map=[linspace(1,0.001,length(foodType))',zeros(1,length(foodType))',zeros(1,length(foodType))'];
     colormap(map)
-    sizeFood=foodAmount.*200;
+    sizeFood=foodAmount.*300;
     scatter(foodX,foodY,sizeFood,foodType,'filled')
-    caxis('manual' )
-    caxis([0 1])
-    colorbar
+    %caxis('manual' )
+    %caxis([0 1])
+    %colorbar
     hold on
 
-    sizeIndividual=agentChromosome(1,:).*100;
+    sizeIndividual=agentChromosome(1,:).*300;
     scatter(agentX,agentY,sizeIndividual,'w','filled')%, sizeIndividual)
     
    
